@@ -1,14 +1,13 @@
 - hosts: localhost
   pre_tasks:
-  - name: Update Apt
-    become: true
-    apt:
-      force_apt_get: true
-      update_cache: true
-      state: present
-      tags: 
-        - install
-        - core
+  - name: Upgrade all packages
+    ansible.builtin.dnf:
+      name: "*"
+      state: latest
+  - name: Autoremove unneeded packages installed as dependencies
+    ansible.builtin.dnf:
+      autoremove: yes
+
   tasks:
     - include: tasks/git.yml
     - include: tasks/core.yml
