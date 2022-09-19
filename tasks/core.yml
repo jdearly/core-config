@@ -1,16 +1,16 @@
-- name: Install System Packages 1
+- name: Install cmake 
   become: true
   ansible.builtin.dnf:
-    name: ["build-essential", "cmake", "pkg-config", "libpthread-stubs0-dev"]
+    name: ["cmake"]
   tags:
     - install
     - neovim
     - core
 
-- name: Install System Packages 2
+- name: Install unzip 
   become: true
   ansible.builtin.dnf:
-    name: [ "unzip", "libtool", "libtool-bin", "gettext"]
+    name: [ "unzip"]
   tags:
     - install
     - neovim
