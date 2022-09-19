@@ -1,6 +1,6 @@
 - name: required libraries for brave
   become: true
-  apt:
+  ansible.builtin.dnf:
     name: ["curl", "apt-transport-https"]
   tags:
     - brave

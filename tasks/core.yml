@@ -1,6 +1,6 @@
 - name: Install System Packages 1
   become: true
-  apt:
+  ansible.builtin.dnf:
     name: ["build-essential", "cmake", "pkg-config", "libpthread-stubs0-dev"]
   tags:
     - install

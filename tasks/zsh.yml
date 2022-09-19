@@ -1,5 +1,5 @@
 - name: Install ZSH
-  apt: name=zsh
+  ansible.builtin.dnf: name=zsh
   tags: &tags_for_zsh_tasks [ 'install', 'productivity', 'dotfiles', 'zsh' ]
     
 - name: Change shell to zsh
