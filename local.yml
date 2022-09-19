@@ -11,6 +11,7 @@
       autoremove: yes
 
   tasks:
+    - include: tasks/ssh.yml
     - include: tasks/git.yml
     - include: tasks/core.yml
     - include: tasks/zsh.yml

@@ -1,0 +1,12 @@
+- name: Remove standard .zshrc
+  shell: rm ~/.zshrc
+
+- name: Dotfile symlinks
+  shell: |
+    ln -s ~/dotfiles/nvim ~/.config/nvim
+    ln -s ~/dotfiles/zsh/.zshrc ~/.zshrc
+    ln -s ~/dotfiles/i3/i3 ~/.config/i3
+    ln -s ~/dotfiles/i3/i3status ~/.config/i3status
+    ln -s ~/dotfiles/i3/kde-i3.sh ~/.config/plasma-workspace/env
+    ln -s ~/dotfiles/kitty ~/.config/kitty
+    ln -s ~/dotfiles/x/.Xresources ~/.Xresources

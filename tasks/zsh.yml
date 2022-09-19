@@ -4,6 +4,8 @@
   tags: &tags_for_zsh_tasks [ 'install', 'productivity', 'dotfiles', 'zsh' ]
     
 - name: Change shell to zsh
+  become: true
+  become_user: josh 
   shell: chsh -s $(which zsh)
   tags: *tags_for_zsh_tasks
 
