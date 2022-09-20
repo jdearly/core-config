@@ -1,3 +1,15 @@
+- name: Cloning .dotfiles
+  ansible.builtin.git:
+    repo: 'git@github.com:jdearly/dotfiles.git'
+    dest: "{{ lookup('env', 'HOME') }}/dotfiles"
+    recursive: yes
+    update: yes
+    accept_hostkey: yes
+    key_file: "{{ lookup('env', 'HOME') }}/.ssh/id_ed25519"
+  tags:
+    - install
+    - dotfiles
+
 - name: Remove standard .zshrc
   ansible.builtin.file:
     path: ~/.zshrc
