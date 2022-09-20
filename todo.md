@@ -1,5 +1,4 @@
 # TODO
 - Use Docker container for testing
-- Nvim
-- Dotfiles
-
+- KDE theming, fonts, etc.
+- Firefox config
