@@ -1,7 +1,7 @@
 - name: Install System Packages
   become: true
   ansible.builtin.dnf:
-    name: [ "clang", "picom", "curl", "htop", "tmux", "fzf", "golang", "i3", "ccache", "ninja-build", "python3-pip", "zsh"]
+    name: [ "nodejs", "npm", "kitty", "rofi", "clang", "picom", "curl", "htop", "tmux", "fzf", "golang", "i3", "ccache", "ninja-build", "python3-pip", "zsh"]
   tags:
     - install
     - core

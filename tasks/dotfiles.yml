@@ -1,12 +1,57 @@
 - name: Remove standard .zshrc
-  shell: rm ~/.zshrc
+  ansible.builtin.file:
+    path: ~/.zshrc
+    state: absent
 
-- name: Dotfile symlinks
-  shell: |
-    ln -s ~/dotfiles/nvim ~/.config/nvim
-    ln -s ~/dotfiles/zsh/.zshrc ~/.zshrc
-    ln -s ~/dotfiles/i3/i3 ~/.config/i3
-    ln -s ~/dotfiles/i3/i3status ~/.config/i3status
-    ln -s ~/dotfiles/i3/kde-i3.sh ~/.config/plasma-workspace/env
-    ln -s ~/dotfiles/kitty ~/.config/kitty
-    ln -s ~/dotfiles/x/.Xresources ~/.Xresources
+- name: Create .zshrc symbolic link
+  ansible.builtin.file:
+    src: ~/dotfiles/zsh/.zshrc
+    dest: ~/.zshrc
+    state: link
+
+- name: Create nvim symbolic link
+  ansible.builtin.file:
+    src: ~/dotfiles/nvim     
+    dest: ~/.config/nvim
+    state: link
+
+- name: Create i3 symbolic link
+  ansible.builtin.file:
+    src: ~/dotfiles/i3/i3
+    dest: ~/.config/i3
+    state: link
+
+- name: Create i3status symbolic link
+  ansible.builtin.file:
+    src: ~/dotfiles/i3/i3status
+    dest: ~/.config/i3status
+    state: link
+
+- name: Create i3status symbolic link
+  ansible.builtin.file:
+    src: ~/dotfiles/i3/i3status
+    dest: ~/.config/i3status
+    state: link
+
+- name: Create plasma-workspace directory
+  ansible.builtin.file:
+    path: ~/.config/plasma-workspace/env
+    state: directory
+
+- name: Create kde-i3.sh symbolic link
+  ansible.builtin.file:
+    src: ~/dotfiles/i3/kde-i3.sh
+    dest: ~/.config/plasma-workspace/env/kde-i3.sh
+    state: link
+
+- name: Create kitty symbolic link
+  ansible.builtin.file:
+    src: ~/dotfiles/kitty
+    dest: ~/.config/kitty
+    state: link
+
+- name: Create .Xresources symbolic link
+  ansible.builtin.file:
+    src: ~/dotfiles/x/.Xresources
+    dest: ~/.Xresources
+    state: link
