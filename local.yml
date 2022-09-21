@@ -17,3 +17,4 @@
     - include: tasks/dotfiles.yml
     - include: tasks/nvim.yml
     - include: tasks/docker.yml
+    - include: tasks/kde.yml
