@@ -16,3 +16,4 @@
     - include: tasks/zsh.yml
     - include: tasks/dotfiles.yml
     - include: tasks/nvim.yml
+    - include: tasks/docker.yml

@@ -1,16 +1,32 @@
-- name: Install System Packages
+- name: Install core packages
   become: true
   ansible.builtin.dnf:
-    name: [ "nodejs", "npm", "kitty", "rofi", "clang", "picom", "curl", "htop", "tmux", "fzf", "golang", "i3", "ccache", "ninja-build", "python3-pip", "zsh"]
+    name: 
+      - bat
+      - ccache
+      - clang
+      - clipit
+      - dnf-plugins-core
+      - feh 
+      - fonts-firacode
+      - fzf
+      - gimp
+      - golang
+      - gradle
+      - htop
+      - i3
+      - kitty
+      - nodejs
+      - npm
+      - picom
+      - python3-pip 
+      - ripgrep
+      - rofi
+      - texstudio
+      - timeshift
+      - tmux 
+      - xbacklight
+      - zsh 
   tags:
     - install
-    - core
-
-- name: Install nvim deps 
-  become: true
-  ansible.builtin.dnf:
-    name: [ "ninja-build", "gettext", "libtool", "autoconf", "automake", "cmake", "gcc", "gcc-c++", "make", "pkg-config", "unzip", "patch", "curl", "doxygen"]
-  tags:
-    - install
-    - neovim
     - core
