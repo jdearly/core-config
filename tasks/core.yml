@@ -8,7 +8,7 @@
       - clipit
       - dnf-plugins-core
       - feh 
-      - fonts-firacode
+      - fira-code-fonts
       - fzf
       - gimp
       - golang
