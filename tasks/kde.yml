@@ -1,5 +1,4 @@
 - name: Configure general KDE settings
-  become: true
   shell: |
     kwriteconfig5 --file $HOME/.config/kdeglobals --group General --key Name "Breeze Dark"
     kwriteconfig5 --file $HOME/.config/kdeglobals --group General --key fixed "Fira Mono,11,-1,5,50,0,0,0,0,0"
