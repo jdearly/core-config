@@ -3,12 +3,14 @@
   ansible.builtin.dnf:
     name: 
       - bat
+      - cargo
       - ccache
       - clang
       - clipit
       - dnf-plugins-core
       - feh 
       - fira-code-fonts
+      - mozilla-fira-mono-fonts
       - fzf
       - gimp
       - golang
@@ -21,6 +23,7 @@
       - python3-pip 
       - ripgrep
       - rofi
+      - rust
       - texstudio
       - timeshift
       - tmux 

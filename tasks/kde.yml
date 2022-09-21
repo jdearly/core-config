@@ -1,0 +1,11 @@
+- name: Configure general KDE settings
+  become: true
+  shell: |
+    kwriteconfig5 --file $HOME/.config/kdeglobals --group General --key Name "Breeze Dark"
+    kwriteconfig5 --file $HOME/.config/kdeglobals --group General --key fixed "Fira Mono,11,-1,5,50,0,0,0,0,0"
+    kwriteconfig5 --file $HOME/.config/kdeglobals --group General --key font "Fira Sans Book,10,-1,5,29,0,0,0,0,0,Regular"
+    kwriteconfig5 --file $HOME/.config/kdeglobals --group General --key menuFont "Fira Sans Book,10,-1,5,50,0,0,0,0,0,Regular"
+    kwriteconfig5 --file $HOME/.config/kdeglobals --group General --key shadeSortColumn "true"
+    kwriteconfig5 --file $HOME/.config/kdeglobals --group General --key smallestReadableFont "Fira Sans Book,10,-1,5,50,0,0,0,0,0,Regular"
+    kwriteconfig5 --file $HOME/.config/kdeglobals --group General --key toolBarFont "Fira Sans Book,10,-1,5,50,0,0,0,0,0,Regular"
+    kwriteconfig5 --file $HOME/.config/plasma-org.kde.plasma.desktop-appletsrc --group Containments --group 2 --key location "3" 
