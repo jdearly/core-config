@@ -67,3 +67,9 @@
     src: ~/dotfiles/x/.Xresources
     dest: ~/.Xresources
     state: link
+
+- name: Copy startkderc 
+  become: true
+  ansible.builtin.copy:
+    src: ~/dotfiles/kde/startkderc
+    dest: /etc/xdg/startkderc
