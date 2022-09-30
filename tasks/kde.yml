@@ -8,3 +8,16 @@
     kwriteconfig5 --file $HOME/.config/kdeglobals --group General --key smallestReadableFont "Fira Sans Book,10,-1,5,50,0,0,0,0,0,Regular"
     kwriteconfig5 --file $HOME/.config/kdeglobals --group General --key toolBarFont "Fira Sans Book,10,-1,5,50,0,0,0,0,0,Regular"
     kwriteconfig5 --file $HOME/.config/plasma-org.kde.plasma.desktop-appletsrc --group Containments --group 2 --key location "3" 
+
+- name: Mask plasma service
+  shell: systemctl --user mask plasma-kwin_x11.service
+
+- name: Copy custom service
+  ansible.builtin.copy:
+    src: ~/dotfiles/kde/plasma-i3.service
+    dest: ~/.config/systemd/user/plasma-i3.service
+
+- name: Enable custom service
+  shell: |
+    systemctl --user daemon-reload
+    systemctl --user enable plasma-i3.service 
