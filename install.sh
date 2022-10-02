@@ -15,4 +15,4 @@ cat ~/.ssh/id_ed25519.pub
 echo PRESS ANY KEY TO CONTINUE SETUP
 read -n 1 -s
 echo Pulling ansible config
-ansible-pull -U https://github.com/jdearly/core-config.git
+ansible-pull -U https://github.com/jdearly/core-config.git -K
