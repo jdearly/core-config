@@ -28,6 +28,7 @@
       - timeshift
       - tmux 
       - xbacklight
+      - xclip
       - zsh 
   tags:
     - install
