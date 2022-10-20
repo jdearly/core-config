@@ -32,3 +32,6 @@
   tags:
     - install
     - core
+
+- name: Install pytest and dependencies
+  shell: python3 -m pip install pytest pytest-cache pytest-subtests pytest-pylint
