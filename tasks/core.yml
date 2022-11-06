@@ -9,6 +9,7 @@
       - clipit
       - dnf-plugins-core
       - feh 
+      - ffmpeg-free
       - fira-code-fonts
       - mozilla-fira-mono-fonts
       - fzf
