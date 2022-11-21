@@ -30,6 +30,7 @@
       - tmux 
       - xbacklight
       - xclip
+      - zeal
       - zsh 
   tags:
     - install
