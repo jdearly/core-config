@@ -51,17 +51,6 @@
     dest: ~/.config/picom.conf
     state: link
 
-- name: Create plasma-workspace directory
-  ansible.builtin.file:
-    path: ~/.config/plasma-workspace/env
-    state: directory
-
-      #- name: Create kde-i3.sh symbolic link
-      #  ansible.builtin.file:
-      #    src: ~/dotfiles/i3/kde-i3.sh
-      #    dest: ~/.config/plasma-workspace/env/kde-i3.sh
-      #    state: link
-
 - name: Create kitty symbolic link
   ansible.builtin.file:
     src: ~/dotfiles/kitty
@@ -73,6 +62,18 @@
     src: ~/dotfiles/x/.Xresources
     dest: ~/.Xresources
     state: link
+
+      #- name: Create plasma-workspace directory
+      #  ansible.builtin.file:
+      #    path: ~/.config/plasma-workspace/env
+      #    state: directory
+
+      #- name: Create kde-i3.sh symbolic link
+      #  ansible.builtin.file:
+      #    src: ~/dotfiles/i3/kde-i3.sh
+      #    dest: ~/.config/plasma-workspace/env/kde-i3.sh
+      #    state: link
+
 
       #- name: Copy startkderc 
       #  become: true
