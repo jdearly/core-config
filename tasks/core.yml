@@ -9,7 +9,6 @@
       - clipit
       - dnf-plugins-core
       - feh 
-      - ffmpeg-free
       - fira-code-fonts
       - fontawesome-fonts
       - mozilla-fira-mono-fonts
