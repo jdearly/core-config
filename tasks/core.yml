@@ -30,6 +30,7 @@
       - tmux 
       - xbacklight
       - xclip
+      - yakuake
       - zeal
       - zsh 
   tags:
