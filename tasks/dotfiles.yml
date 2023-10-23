@@ -29,8 +29,8 @@
 
 - name: Create git-completion symbolic link
   ansible.builtin.file:
-    src: ~/dotfiles/bash/git-completion.sh
-    dest: ~/git-completion.sh
+    src: ~/dotfiles/bash/git-completion.bash
+    dest: ~/git-completion.bash
     state: link
 
 - name: Create nvim symbolic link
