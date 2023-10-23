@@ -15,10 +15,22 @@
     path: ~/.zshrc
     state: absent
 
-- name: Create .zshrc symbolic link
+- name: Create .bashrc symbolic link
   ansible.builtin.file:
-    src: ~/dotfiles/zsh/.zshrc
-    dest: ~/.zshrc
+    src: ~/dotfiles/bash/.bashrc
+    dest: ~/.bashrc
+    state: link
+
+- name: Create git-prompt symbolic link
+  ansible.builtin.file:
+    src: ~/dotfiles/bash/git-prompt.sh
+    dest: ~/git-prompt.sh
+    state: link
+
+- name: Create git-completion symbolic link
+  ansible.builtin.file:
+    src: ~/dotfiles/bash/git-completion.sh
+    dest: ~/git-completion.sh
     state: link
 
 - name: Create nvim symbolic link
