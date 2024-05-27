@@ -3,7 +3,7 @@
   ansible.builtin.dnf:
     name: 
       - bat
-      - cargo
+      #- cargo
       - ccache
       - clang
       - clipit
@@ -16,26 +16,26 @@
       - gimp
       - golang
       - htop
-      - i3
+      #- i3
       - kitty
       - nodejs
       - npm
-      - picom
-      - python3-pip 
+      #- picom
+      #- python3-pip 
       - ripgrep
       - rofi
-      - rust
+      #- rust
       - texstudio
-      - timeshift
+      #- timeshift
       - tmux 
       - xbacklight
       - xclip
       - yakuake
-      - zeal
+      #- zeal
       - zsh 
   tags:
     - install
     - core
 
-- name: Install pytest and dependencies
-  shell: python3 -m pip install pytest pytest-cache pytest-subtests pytest-pylint
+#- name: Install pytest and dependencies
+#  shell: python3 -m pip install pytest pytest-cache pytest-subtests pytest-pylint

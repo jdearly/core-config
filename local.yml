@@ -10,11 +10,8 @@
     ansible.builtin.dnf:
       autoremove: yes
 
-  tasks:
-    - include: tasks/git.yml
-    - include: tasks/core.yml
-    - include: tasks/bash.yml
-    - include: tasks/dotfiles.yml
-    - include: tasks/nvim.yml
-    - include: tasks/docker.yml
-    - include: tasks/kde.yml
+  - import_tasks: tasks/core.yml
+  - import_tasks: tasks/zsh.yml
+  - import_tasks: tasks/dotfiles.yml
+  - import_tasks: tasks/nvim.yml
+  - import_tasks: tasks/docker.yml

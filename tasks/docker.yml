@@ -27,4 +27,3 @@
       - containerd.io
       - docker-compose-plugin
     state: latest
-
