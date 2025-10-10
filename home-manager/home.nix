@@ -138,6 +138,20 @@
       };
       window.titlebar = false;
       floating.titlebar = false;
+      input = {
+        "type:keyboard" = {
+          repeat_rate =  "50";
+          repeat_delay = "200";
+        };
+      };
+      output = {
+        "HDMI-A-1" = {
+          mode = "2560x1440@144.0Hz";
+        };
+        "DP-3" = {
+          mode = "1920x1080@144.0Hz";
+        };
+      };
     };
   };
 
