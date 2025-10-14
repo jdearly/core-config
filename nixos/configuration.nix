@@ -125,6 +125,8 @@
 
   programs.zsh.enable = true;
 
+  virtualisation.docker.enable = true;
+
   # System wide user settings
   users.users.josh = {
     isNormalUser = true;
