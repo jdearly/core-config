@@ -21,23 +21,11 @@
   ];
 
   nixpkgs = {
-    # Can add overlays here
     overlays = [
-      # Add overlays for flake exports (from overlays and pkgs dir):
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
-
-      # Can also add overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
-    ];
+   ];
     config = {
       allowUnfree = true;
     };
@@ -76,7 +64,6 @@
      wl-clipboard
   ];
 
-  # Enable home-manager and git
   programs.home-manager.enable = true;
   programs.git.enable = true;
 
@@ -101,8 +88,8 @@
 
   programs.direnv = {
     enable = true;
-    enableZshIntegration = true;  # This adds the hook to zsh
-    nix-direnv.enable = true;     # Better nix support
+    enableZshIntegration = true;
+    nix-direnv.enable = true;
   };
 
   programs.neovim = {

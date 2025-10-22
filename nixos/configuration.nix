@@ -7,17 +7,7 @@
   pkgs,
   ...
 }: {
-  # Can import other NixOS modules here
   imports = [
-    # outputs.nixosModules.example
-
-    # inputs.hardware.nixosModules.common-cpu-amd
-    # inputs.hardware.nixosModules.common-ssd
-
-    # Can also split up your configuration and import pieces of it here:
-    # ./users.nix
-
-    # Import generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
 
@@ -26,16 +16,6 @@
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
-
-      # Can also add overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
     ];
     config = {
       allowUnfree = true;
@@ -46,27 +26,19 @@
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
   in {
     settings = {
-      # Enable flakes and new 'nix' command
       experimental-features = "nix-command flakes";
-      # Opinionated: disable global registry
       flake-registry = "";
-      # Workaround for https://github.com/NixOS/nix/issues/9574
       nix-path = config.nix.nixPath;
     };
-    # Opinionated: disable channels
     channel.enable = false;
 
-    # Opinionated: make flake registry and nix path match flake inputs
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
   };
 
-  # Set your time zone.
   time.timeZone = "America/New_York";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
-
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "en_US.UTF-8";
     LC_IDENTIFICATION = "en_US.UTF-8";
@@ -79,7 +51,6 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
     variant = "";
