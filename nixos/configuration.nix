@@ -7,7 +7,7 @@
   pkgs,
   ...
 }: {
-  # Can import other NixOS modules here
+  # You can import other NixOS modules here
   imports = [
     # outputs.nixosModules.example
 
