@@ -76,6 +76,13 @@
      wl-clipboard
   ];
 
+  # Steam for gaming (as if)
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+  };
+
   # Enable home-manager and git
   programs.home-manager.enable = true;
   programs.git.enable = true;
