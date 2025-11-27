@@ -140,7 +140,7 @@
       floating.titlebar = false;
       input = {
         "type:keyboard" = {
-          repeat_rate =  "50";
+          repeat_rate =  "40";
           repeat_delay = "200";
         };
       };
