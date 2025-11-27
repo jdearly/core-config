@@ -64,6 +64,7 @@
      htop
      kitty
      libnotify
+     man-pages
      mako
      nodejs # for tools that require it :(
      obsidian
