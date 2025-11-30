@@ -5,10 +5,10 @@
   config,
   pkgs,
   ...
-}: let 
+}: let
   # Set Mod key for Sway
   mod = "Mod1";
-  in {
+in {
   imports = [
     # Modules from flake exports (from modules/home-manager):
     # outputs.homeManagerModules.example
@@ -50,31 +50,31 @@
 
   # TODO: use programs.<program> with configuration
   # for anything that supports configuration
-  home.packages = with pkgs; [ 
-     alsa-scarlett-gui
-     bat
-     bemenu
-     chromium
-     direnv
-     fzf
-     gcc
-     ghostty
-     gnumake
-     grim
-     htop
-     kitty
-     libnotify
-     man-pages
-     mako
-     nodejs # for tools that require it :(
-     obsidian
-     qutebrowser
-     ripgrep
-     slurp
-     texstudio
-     tmux
-     unzip
-     wl-clipboard
+  home.packages = with pkgs; [
+    alsa-scarlett-gui
+    bat
+    bemenu
+    chromium
+    direnv
+    fzf
+    gcc
+    ghostty
+    gnumake
+    grim
+    htop
+    kitty
+    libnotify
+    man-pages
+    mako
+    nodejs # for tools that require it :(
+    obsidian
+    qutebrowser
+    ripgrep
+    slurp
+    texstudio
+    tmux
+    unzip
+    wl-clipboard
   ];
 
   # Enable home-manager and git
@@ -95,15 +95,15 @@
 
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" ];
+      plugins = ["git"];
       theme = "refined";
     };
-  };  
+  };
 
   programs.direnv = {
     enable = true;
-    enableZshIntegration = true;  # This adds the hook to zsh
-    nix-direnv.enable = true;     # Better nix support
+    enableZshIntegration = true; # This adds the hook to zsh
+    nix-direnv.enable = true; # Better nix support
   };
 
   programs.neovim = {
@@ -112,12 +112,15 @@
     # May prefer dropping these in
     # project specific dev shells
     extraPackages = with pkgs; [
+      # Language Servers
       bash-language-server
       gopls
       lua-language-server
       nixd
       pyright
       zls
+      # Formatters
+      alejandra
     ];
   };
 
@@ -140,7 +143,7 @@
       floating.titlebar = false;
       input = {
         "type:keyboard" = {
-          repeat_rate =  "40";
+          repeat_rate = "40";
           repeat_delay = "200";
         };
       };
