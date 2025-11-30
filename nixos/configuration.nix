@@ -102,8 +102,8 @@
 
   # Seems to be required for waybar fonts
   fonts.fontconfig.enable = true;
-  fonts.packages = with pkgs; [ 
-     font-awesome
+  fonts.packages = with pkgs; [
+    font-awesome
   ];
 
   # Bootloader.
@@ -129,8 +129,8 @@
   users.users.josh = {
     isNormalUser = true;
     description = "josh";
-    extraGroups = [ "networkmanager" "docker" "wheel" ];
-    packages = [ inputs.home-manager.packages.${pkgs.system}.default ];
+    extraGroups = ["networkmanager" "docker" "wheel"];
+    packages = [inputs.home-manager.packages.${pkgs.system}.default];
     shell = pkgs.zsh;
   };
 
