@@ -111,14 +111,13 @@
     # LSPs
     # May prefer dropping these in
     # project specific dev shells
-    # anything but mason
     extraPackages = with pkgs; [
       bash-language-server
       gopls
-      nil
-      zls
       lua-language-server
+      nixd
       pyright
+      zls
     ];
   };
 
