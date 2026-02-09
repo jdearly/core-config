@@ -54,6 +54,7 @@ in {
     alsa-scarlett-gui
     bat
     bemenu
+    calibre
     chromium
     direnv
     fzf
@@ -64,8 +65,8 @@ in {
     htop
     kitty
     libnotify
-    man-pages
     mako
+    man-pages
     nodejs # for tools that require it :(
     obsidian
     qutebrowser
@@ -74,6 +75,7 @@ in {
     texstudio
     tmux
     unzip
+    vivaldi
     wl-clipboard
   ];
 
