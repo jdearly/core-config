@@ -55,6 +55,7 @@ in {
     calibre
     chromium
     direnv
+    firefox
     fzf
     gcc
     ghostty
@@ -69,7 +70,6 @@ in {
     ripgrep
     slurp
     texstudio
-    tmux
     unzip
     vivaldi
     wl-clipboard
@@ -81,6 +81,46 @@ in {
     enable = true;
     userName = "Josh Early";
     userEmail = "josh.early@protonmail.com";
+  };
+
+  programs.tmux = {
+    enable = true;
+    plugins = with pkgs.tmuxPlugins; [yank];
+    extraConfig = ''
+      set -sg escape-time 0 # get rid of escape delay in vim
+      bind -n C-h select-pane -L
+      bind -n C-j select-pane -D
+      bind -n C-k select-pane -U
+      bind -n C-l select-pane -R
+
+      unbind v
+      unbind h
+
+      unbind % # Split vertically
+      unbind '"' # Split horizontally
+
+      bind v split-window -h -c "#{pane_current_path}"
+      bind h split-window -v -c "#{pane_current_path}"
+
+      # set vi-mode
+      set-window-option -g mode-keys vi
+      # keybindings
+      bind-key -T copy-mode-vi v send-keys -X begin-selection
+      bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
+      bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+
+      set -g base-index 1
+      setw -g pane-base-index 1
+
+      unbind r
+      bind r source-file ~/.tmux.conf \; display "Reloaded ~/.tmux.conf"
+
+      unbind C-b
+      set -g prefix C-Space
+
+      set -g mouse on
+      set -g set-clipboard external
+    '';
   };
 
   programs.zsh = {
@@ -168,7 +208,6 @@ in {
 
       # Completion
       blink-cmp
-      luasnip
 
       # Colorscheme
       kanagawa-nvim
@@ -329,13 +368,6 @@ in {
         completion = {
           documentation = { auto_show = false, auto_show_delay_ms = 500 },
         },
-        sources = {
-          default   = { 'lsp', 'path', 'snippets', 'lazydev' },
-          providers = {
-            lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
-          },
-        },
-        snippets  = { preset = 'luasnip' },
         fuzzy     = { implementation = 'lua' },
         signature = { enabled = true },
       }
