@@ -127,6 +127,11 @@
 
   programs.zsh.enable = true;
 
+  virtualisation.docker = {
+    enable = true;
+    enableOnBoot = true; # start daemon at boot via systemd
+  };
+
   # System wide user settings
   users.users.josh = {
     isNormalUser = true;
@@ -143,7 +148,7 @@
       #PermitRootLogin = "no";
       # Opinionated: use keys only.
       # Remove if you want to SSH using passwords
-      #PasswordAuthentication = true;
+      PasswordAuthentication = true;
     };
   };
 
