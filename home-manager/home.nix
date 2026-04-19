@@ -162,12 +162,17 @@ in {
       zls # Zig
       gopls # Go
       pyright # Python
+      typescript-language-server # TypeScript
       lua-language-server
       nixd # Nix
 
       # Formatters
       stylua # Lua
       alejandra # Nix
+      gofumpt # Go (stricter gofmt)
+      gotools # Go (goimports)
+      prettierd # TypeScript / JS
+      ruff # Python (formatter + linter)
 
       # Telescope dependencies
       ripgrep
@@ -209,6 +214,10 @@ in {
       # Completion
       blink-cmp
 
+      # Snippets
+      luasnip
+      friendly-snippets
+
       # Colorscheme
       kanagawa-nvim
 
@@ -218,9 +227,9 @@ in {
       # Mini collection (ai, surround, statusline)
       mini-nvim
 
-      # Treesitter — withAllGrammars keeps things simple;
-      # swap for nvim-treesitter if you want to cherry-pick grammars.
+      # Treesitter — withAllGrammars keeps things simple
       nvim-treesitter.withAllGrammars
+      nvim-treesitter-textobjects
     ];
 
     # ---------------------------------------------------------------------------
@@ -360,13 +369,59 @@ in {
       end, { desc = '[S]earch [N]eovim files' })
 
       -- =========================================================================
+      -- LuaSnip (snippet engine)
+      -- =========================================================================
+      local ls = require('luasnip')
+
+      ls.setup {
+        history = true,                    -- remember last snippet to jump back
+        update_events = 'TextChanged,TextChangedI', -- update dynamic nodes live
+        delete_check_events = 'TextChanged',
+      }
+
+      -- Load custom Lua-format snippets managed by Home Manager
+      local snippet_path = (os.getenv('XDG_CONFIG_HOME') or (os.getenv('HOME') .. '/.config'))
+        .. '/nvim/luasnippets'
+      require('luasnip.loaders.from_lua').lazy_load({
+        paths = { snippet_path }
+      })
+
+      -- Load friendly-snippets (VSCode format) — these populate blink-cmp's
+      -- built-in snippets source. Custom LuaSnip Lua-format snippets above
+      -- supplement these with choice nodes and multi-line scaffolds.
+      require('luasnip.loaders.from_vscode').lazy_load()
+
+      -- Extend snippets to related filetypes
+      ls.filetype_extend('typescriptreact', { 'typescript' })
+      ls.filetype_extend('javascriptreact', { 'typescript' })
+      ls.filetype_extend('javascript',      { 'typescript' })
+      ls.filetype_extend('cpp',             { 'c' })
+
+      -- Cycle through choice nodes
+      vim.keymap.set({ 'i', 's' }, '<C-l>', function()
+        if ls.choice_active() then ls.change_choice(1) end
+      end, { desc = 'Next snippet choice' })
+
+      vim.keymap.set({ 'i', 's' }, '<C-h>', function()
+        if ls.choice_active() then ls.change_choice(-1) end
+      end, { desc = 'Previous snippet choice' })
+
+      -- =========================================================================
       -- blink.cmp (completion)
       -- =========================================================================
       require('blink-cmp').setup {
-        keymap    = { preset = 'default' },
+        keymap = {
+          preset = 'default',
+          ['<Tab>']   = { 'snippet_forward', 'fallback' },
+          ['<S-Tab>'] = { 'snippet_backward', 'fallback' },
+        },
         appearance = { nerd_font_variant = 'mono' },
         completion = {
           documentation = { auto_show = false, auto_show_delay_ms = 500 },
+        },
+        snippets = { preset = 'luasnip' },
+        sources    = {
+          default = { 'lsp', 'snippets', 'path', 'buffer' },
         },
         fuzzy     = { implementation = 'lua' },
         signature = { enabled = true },
@@ -464,10 +519,102 @@ in {
             '--function-arg-placeholders',
             '--fallback-style=llvm',
           },
+          init_options = {
+            clangdFileStatus = true,
+          },
         },
-        zls     = {},
-        gopls   = {},
-        pyright = {},
+        zls = {
+          settings = {
+            zls = {
+              enable_snippets          = true,
+              enable_argument_placeholders = true,
+              enable_autofix           = true,
+              enable_import_detection  = true,
+              warn_style              = true,
+              highlight_global_var_declarations = true,
+              inlay_hints_show_builtin  = true,
+              inlay_hints_show_variable_type_hints = true,
+              inlay_hints_show_parameter_name      = true,
+            },
+          },
+        },
+        gopls   = {
+          settings = {
+            gopls = {
+              gofumpt       = true,
+              staticcheck   = true,
+              usePlaceholders = true,
+              analyses = {
+                unusedparams = true,
+                shadow       = true,
+                nilness      = true,
+                unusedwrite  = true,
+              },
+              hints = {
+                assignVariableTypes    = true,
+                compositeLiteralFields = true,
+                constantValues         = true,
+                functionTypeParameters = true,
+                parameterNames         = true,
+                rangeVariableTypes     = true,
+              },
+            },
+          },
+        },
+        pyright = {
+          settings = {
+            pyright = {
+              disableOrganizeImports = true, -- let ruff handle imports
+            },
+            python = {
+              analysis = {
+                typeCheckingMode       = 'basic', -- 'off' | 'basic' | 'standard' | 'strict'
+                autoSearchPaths        = true,
+                useLibraryCodeForTypes = true,
+                diagnosticMode         = 'openFilesOnly',
+                inlayHints = {
+                  variableTypes       = true,
+                  functionReturnTypes = true,
+                  callArgumentNames  = 'partial',
+                  pytestParameters   = true,
+                },
+              },
+            },
+          },
+        },
+        ts_ls = {
+          filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
+          settings = {
+            typescript = {
+              updateImportsOnFileMove = { enabled = 'always' },
+              completions = { completeFunctionCalls = true },
+              inlayHints = {
+                includeInlayParameterNameHints              = 'literals',
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints      = true,
+                includeInlayVariableTypeHints               = true,
+                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                includeInlayPropertyDeclarationTypeHints    = true,
+                includeInlayFunctionLikeReturnTypeHints     = true,
+                includeInlayEnumMemberValueHints            = true,
+              },
+            },
+            javascript = {
+              updateImportsOnFileMove = { enabled = 'always' },
+              completions = { completeFunctionCalls = true },
+              inlayHints = {
+                includeInlayParameterNameHints              = 'literals',
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints      = true,
+                includeInlayVariableTypeHints               = true,
+                includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+                includeInlayPropertyDeclarationTypeHints    = true,
+                includeInlayFunctionLikeReturnTypeHints     = true,
+                includeInlayEnumMemberValueHints            = true,
+              },
+            },
+          },
+        },
         lua_ls  = {
           cmd      = { 'lua-language-server' },
           filetypes = { 'lua' },
@@ -504,15 +651,23 @@ in {
       require('conform').setup {
         notify_on_error = false,
         format_on_save  = function(bufnr)
-          local disable_filetypes = { c = true, cpp = true }
+          local disable_filetypes = {}
           if disable_filetypes[vim.bo[bufnr].filetype] then
             return nil
           end
           return { timeout_ms = 500, lsp_format = 'fallback' }
         end,
         formatters_by_ft = {
-          lua = { 'stylua' },
-          nix = { 'alejandra' },
+          lua        = { 'stylua' },
+          nix        = { 'alejandra' },
+          go         = { 'gofumpt', 'goimports' },
+          c          = { 'clang_format' },
+          cpp        = { 'clang_format' },
+          typescript      = { 'prettierd' },
+          typescriptreact = { 'prettierd' },
+          javascript      = { 'prettierd' },
+          javascriptreact = { 'prettierd' },
+          python     = { 'ruff_format', 'ruff_organize_imports' },
         },
       }
 
@@ -545,18 +700,70 @@ in {
       -- nvim-treesitter
       -- =========================================================================
       require('nvim-treesitter.configs').setup {
-        -- Grammars are managed by Nix (withAllGrammars), so no auto-install needed
         auto_install = false,
         highlight    = {
           enable = true,
           additional_vim_regex_highlighting = { 'ruby' },
         },
         indent       = { enable = true, disable = { 'ruby' } },
+        textobjects  = {
+          select = {
+            enable    = true,
+            lookahead = true,
+            keymaps   = {
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['ac'] = '@class.outer',
+              ['ic'] = '@class.inner',
+              ['aa'] = '@parameter.outer',
+              ['ia'] = '@parameter.inner',
+              ['ai'] = '@conditional.outer',
+              ['ii'] = '@conditional.inner',
+              ['al'] = '@loop.outer',
+              ['il'] = '@loop.inner',
+            },
+          },
+          move = {
+            enable              = true,
+            set_jumps           = true,
+            goto_next_start     = {
+              [']f'] = '@function.outer',
+              [']c'] = '@class.outer',
+              [']a'] = '@parameter.inner',
+            },
+            goto_next_end       = {
+              [']F'] = '@function.outer',
+              [']C'] = '@class.outer',
+            },
+            goto_previous_start = {
+              ['[f'] = '@function.outer',
+              ['[c'] = '@class.outer',
+              ['[a'] = '@parameter.inner',
+            },
+            goto_previous_end   = {
+              ['[F'] = '@function.outer',
+              ['[C'] = '@class.outer',
+            },
+          },
+          swap = {
+            enable        = true,
+            swap_next     = { ['<leader>a'] = '@parameter.inner' },
+            swap_previous = { ['<leader>A'] = '@parameter.inner' },
+          },
+        },
       }
 
       -- vim: ts=2 sts=2 sw=2 et
     '';
   };
+
+  # ---------------------------------------------------------------------------
+  # Snippet files — placed into ~/.config/nvim/luasnippets/ by Home Manager
+  # ---------------------------------------------------------------------------
+  xdg.configFile."nvim/luasnippets/go.lua".source         = ./nvim/luasnippets/go.lua;
+  xdg.configFile."nvim/luasnippets/typescript.lua".source = ./nvim/luasnippets/typescript.lua;
+  xdg.configFile."nvim/luasnippets/python.lua".source     = ./nvim/luasnippets/python.lua;
+  xdg.configFile."nvim/luasnippets/c.lua".source          = ./nvim/luasnippets/c.lua;
 
   programs.swayr = {
     enable = true;
