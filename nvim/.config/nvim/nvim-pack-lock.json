@@ -1,0 +1,8 @@
+{
+  "plugins": {
+    "fzf.vim": {
+      "rev": "d2a59a992a2455f609c0fde2ebd84427ea8f919a",
+      "src": "https://github.com/junegunn/fzf.vim"
+    }
+  }
+}

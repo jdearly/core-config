@@ -9,6 +9,7 @@ source "$HOME/.config/zsh/paths.zsh"
 
 for file in "$HOME/.config/zsh/aliases.zsh" \
   "$HOME/.config/zsh/functions.zsh" \
+  "$HOME/.config/zsh/prompt.zsh" \
   "$HOME"/.config/zsh/lang/*.zsh(N); do
   source "$file"
 done
