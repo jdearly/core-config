@@ -1,0 +1,26 @@
+# Neovim's default dark palette, distributed with Foot.
+# https://codeberg.org/dnkl/foot/src/branch/master/themes/nvim
+# https://github.com/neovim/neovim/blob/master/src/nvim/highlight_group.c
+
+[colors]
+cursor=14161b e0e2ea
+foreground=e0e2ea
+background=14161b
+selection-foreground=e0e2ea
+selection-background=4f5258
+regular0=07080d
+regular1=ffc0b9
+regular2=b3f6c0
+regular3=fce094
+regular4=a6dbff
+regular5=ffcaff
+regular6=8cf8f7
+regular7=c4c6cd
+bright0=2c2e33
+bright1=ffc0b9
+bright2=b3f6c0
+bright3=fce094
+bright4=a6dbff
+bright5=ffcaff
+bright6=8cf8f7
+bright7=eef1f8

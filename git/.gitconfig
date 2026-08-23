@@ -1,18 +1,41 @@
+# Git configuration syntax and scope:
+# https://git-scm.com/docs/git-config
 [user]
+	# Identity recorded in authored commits.
+	# https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup
 	name = Josh Early
 	email = josh.early@protonmail.com
 [init]
+	# New repositories start on the shared canonical branch name.
+	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-initdefaultBranch
 	defaultBranch = main
 [pull]
+	# Reject implicit merge commits and rebases during pull.
+	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-pullff
 	ff = only
 [fetch]
+	# Remove remote-tracking references deleted by the remote.
+	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-fetchprune
 	prune = true
 [core]
+	# Keep generated machine-local files out of every repository without
+	# modifying each project's committed .gitignore.
+	# https://git-scm.com/docs/gitignore
+	excludesFile = ~/.config/git/ignore
+	# delta renders Git output while Git remains the source of the diff.
+	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-corepager
+	# https://dandavison.github.io/delta/configuration.html
 	pager = delta
 [interactive]
+	# Preserve Git's interactive staging protocol while delta colors its diff.
+	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-interactivediffFilter
 	diffFilter = delta --color-only
 [delta]
+	# Enable file navigation and line numbers in delta's pager output.
+	# https://dandavison.github.io/delta/configuration.html
 	navigate = true
 	line-numbers = true
 [merge]
+	# zdiff3 includes the common ancestor while aligning unchanged lines.
+	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-mergeconflictStyle
 	conflictStyle = zdiff3

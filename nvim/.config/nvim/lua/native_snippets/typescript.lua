@@ -1,3 +1,6 @@
+-- Each key is an insert-mode trigger and each body uses Neovim's native
+-- LSP-style snippet grammar.
+-- https://neovim.io/doc/user/lua.html#vim.snippet
 ---@type table<string, { description: string, body: string }>
 return {
   [";fn"] = {

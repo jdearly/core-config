@@ -1,3 +1,8 @@
+-- FileType autocmds install buffer-local insert mappings that expand Neovim's
+-- native snippet syntax.
+-- https://neovim.io/doc/user/lua.html#vim.snippet
+-- https://neovim.io/doc/user/autocmd.html#FileType
+-- https://neovim.io/doc/user/map.html#vim.keymap.set()
 local NativeSnippets = {}
 
 ---@class NativeSnippet
