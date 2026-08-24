@@ -40,5 +40,5 @@ require_distribution fedora
 
 # DNF converges installed package presence without forcing a system upgrade.
 sudo dnf install --assumeyes "${fedora_core_packages[@]}"
-install_determinate_nix
+install_nix linux
 configure_mutable_linux_system

@@ -39,10 +39,11 @@ require_distribution() {
   fi
 }
 
-# Determinate Nix supplies a multi-user Nix installation on non-NixOS hosts.
-# The temporary installer is removed on success or failure.
-# https://docs.determinate.systems/determinate-nix/
-install_determinate_nix() {
+# Determinate Nix Installer supplies multi-user Nix on non-NixOS hosts. Callers
+# select the compatible planner and Nix distribution. The temporary installer
+# is removed on success or failure.
+# https://github.com/DeterminateSystems/nix-installer
+install_nix() {
   if [[ -x "${nix_binary}" ]]; then
     return
   fi
@@ -53,7 +54,7 @@ install_determinate_nix() {
     trap 'rm -f -- "${installer}"' EXIT
     curl --fail --location --proto '=https' --tlsv1.2 \
       "${nix_installer_url}" --output "${installer}"
-    sh "${installer}" install --no-confirm
+    sh "${installer}" install "$@" --no-confirm
   )
 }
 

@@ -47,5 +47,5 @@ fi
 # https://wiki.archlinux.org/title/System_maintenance#Partial_upgrades_are_unsupported
 sudo pacman --sync --refresh --sysupgrade --needed --noconfirm \
   "${arch_core_packages[@]}"
-install_determinate_nix
+install_nix linux
 configure_mutable_linux_system

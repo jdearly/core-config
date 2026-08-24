@@ -17,12 +17,13 @@ if ! command -v curl >/dev/null; then
   exit 1
 fi
 
-# Determinate's installer has a supported Steam Deck planner. The core-tools
-# flake package puts user programs in the persistent Nix store without mutating
-# the SteamOS image.
+# The Steam Deck planner handles SteamOS persistence. Upstream Nix avoids
+# Determinate Nixd, which cannot be installed on SteamOS's read-only root.
+# The core-tools profile then puts user programs in the persistent Nix store.
 # https://github.com/DeterminateSystems/nix-installer#compatibility
+# https://github.com/DeterminateSystems/nix-installer#installing-upstream-nix
 # https://nix.dev/manual/nix/latest/command-ref/new-cli/nix3-profile-install
-install_determinate_nix
+install_nix steam-deck --prefer-upstream-nix
 "${nix_binary}" profile install "path:${dotfiles_directory}#core-tools"
 
 deploy_dotfiles "${HOME}/.nix-profile/bin/stow"

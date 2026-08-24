@@ -84,7 +84,7 @@ does not configure a Docker daemon. Add a container strategy only when an
 active project requires one.
 
 References: [Steam Deck desktop mode](https://help.steampowered.com/en/faqs/view/671A-4453-E8D2-323C)
-and [Determinate Nix compatibility](https://github.com/DeterminateSystems/nix-installer#compatibility).
+and [Determinate Nix Installer compatibility](https://github.com/DeterminateSystems/nix-installer#compatibility).
 
 ## NixOS
 
