@@ -20,6 +20,10 @@ vim.pack.add({
 -- https://neovim.io/doc/user/lua.html#vim.snippet
 require("native_snippets").setup_filetype_snippets()
 
+-- Markdown wiki links resolve repository-wide by unique file name.
+-- https://neovim.io/doc/user/map.html#gf
+require("markdown_wiki_links").setup()
+
 -- Visible line numbers and wrapped-line indentation preserve source context.
 -- Persistent undo keeps editing history across Neovim sessions.
 -- https://neovim.io/doc/user/options.html#'number'
