@@ -1,3 +1,10 @@
+# Multi-user Nix owns its profile initialization. Guarding the source keeps the
+# same shell configuration valid on machines without Nix.
+# https://nix.dev/manual/nix/latest/installation/multi-user
+if [[ -r /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh ]]; then
+  source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+fi
+
 # Zsh's unique array removes duplicate PATH entries while preserving order.
 # https://zsh.sourceforge.io/Doc/Release/Parameters.html#index-path
 # ~/.local/bin is the conventional location for user-owned executables.

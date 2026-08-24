@@ -26,5 +26,10 @@ fi
 install_nix steam-deck --prefer-upstream-nix
 "${nix_binary}" profile install "path:${dotfiles_directory}#core-tools"
 
-deploy_dotfiles "${HOME}/.nix-profile/bin/stow"
-printf '\nSteamOS bootstrap complete. Start Zsh with ~/.nix-profile/bin/zsh.\n'
+# Resolve the default user profile through Nix's own initialization instead of
+# assuming the legacy ~/.nix-profile path.
+# https://nix.dev/manual/nix/latest/command-ref/files/profiles
+# shellcheck disable=SC1091
+source /nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh
+deploy_dotfiles "$(command -v stow)"
+printf '\nSteamOS bootstrap complete. Start Zsh with: exec zsh\n'
