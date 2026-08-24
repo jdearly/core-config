@@ -29,6 +29,12 @@ vim.opt.number = true
 vim.opt.breakindent = true
 vim.opt.undofile = true
 
+-- Use the system clipboard for normal yanks, deletes, changes, and puts.
+-- Neovim delegates Wayland clipboard access to wl-copy and wl-paste.
+-- https://neovim.io/doc/user/options.html#'clipboard'
+-- https://neovim.io/doc/user/provider.html#clipboard
+vim.opt.clipboard = "unnamedplus"
+
 -- Ignore case unless the search contains uppercase characters.
 -- https://neovim.io/doc/user/options.html#'ignorecase'
 -- https://neovim.io/doc/user/options.html#'smartcase'

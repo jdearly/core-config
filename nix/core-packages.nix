@@ -19,5 +19,6 @@ with pkgs; [
   stow # https://www.gnu.org/software/stow/manual/stow.html
   tmux # https://man.openbsd.org/tmux
   universal-ctags # https://docs.ctags.io/
+  wl-clipboard # https://github.com/bugaevc/wl-clipboard
   zsh # https://zsh.sourceforge.io/Doc/Release/
 ]

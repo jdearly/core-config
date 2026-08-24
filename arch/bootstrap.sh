@@ -31,6 +31,7 @@ readonly arch_core_packages=(
   stow
   tmux
   universal-ctags
+  wl-clipboard
   zsh
 )
 

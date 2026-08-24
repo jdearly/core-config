@@ -31,6 +31,7 @@ readonly fedora_core_packages=(
   ripgrep
   stow
   tmux
+  wl-clipboard
   zsh
 )
 

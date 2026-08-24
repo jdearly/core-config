@@ -21,6 +21,7 @@ statement stops being true.
 | Firefox | One browser across desktop hosts | [Firefox](https://www.mozilla.org/firefox/) |
 | tmux | Persistent local and remote terminal sessions | [tmux manual](https://man.openbsd.org/tmux) |
 | Universal Ctags | Optional native symbol navigation across languages | [Universal Ctags](https://docs.ctags.io/) |
+| wl-clipboard | Connect Neovim to the Wayland system clipboard | [wl-clipboard](https://github.com/bugaevc/wl-clipboard) |
 | make | One repository command contract independent of language | [GNU Make manual](https://www.gnu.org/software/make/manual/) |
 | ripgrep | Source-tree search consumed by Neovim and fzf | [ripgrep guide](https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md) |
 | fd | File discovery consumed by fzf | [fd](https://github.com/sharkdp/fd) |
