@@ -8,7 +8,8 @@
     # at the same time. Here's an working example:
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     # Also see the 'unstable-packages' overlay at 'overlays/default.nix'.
-
+    # flake.nix inputs
+    # nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     # Home manager
     home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -18,9 +19,11 @@
     self,
     nixpkgs,
     home-manager,
+    #nixos-hardware,
     ...
   } @ inputs: let
     inherit (self) outputs;
+    system = "x86_64-linux";
     # Supported systems for your flake packages, shell, etc.
     systems = [
       "aarch64-linux"
@@ -53,10 +56,13 @@
     # Available through 'nixos-rebuild --flake .#your-hostname'
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
+        inherit system;
         specialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main nixos configuration file <
           ./nixos/configuration.nix
+          home-manager.nixosModules.home-manager
+          #nixos-hardware.nixosModules.framework-intel-core-ultra-series3
         ];
       };
     };
@@ -65,7 +71,11 @@
     # Available through 'home-manager --flake .#your-username@your-hostname'
     homeConfigurations = {
       "josh@nixos" = home-manager.lib.homeManagerConfiguration {
-        pkgs = nixpkgs.legacyPackages.x86_64-linux; # Home-manager requires 'pkgs' instance
+        pkgs = import nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
+          overlays = builtins.attrValues outputs.overlays;
+        }; # Home-manager requires 'pkgs' instance
         extraSpecialArgs = {inherit inputs outputs;};
         modules = [
           # > Our main home-manager configuration file <
