@@ -127,6 +127,17 @@
 
   programs.zsh.enable = true;
 
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = {inherit inputs outputs;};
+    users.josh = import ../home-manager/home.nix;
+  };
+
+  hardware.graphics = {
+    enable = true;
+  };
+
   virtualisation.docker = {
     enable = true;
     enableOnBoot = true; # start daemon at boot via systemd
@@ -137,7 +148,6 @@
     isNormalUser = true;
     description = "josh";
     extraGroups = ["networkmanager" "docker" "wheel"];
-    packages = [inputs.home-manager.packages.${pkgs.system}.default];
     shell = pkgs.zsh;
   };
 
