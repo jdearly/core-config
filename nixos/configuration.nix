@@ -1,4 +1,3 @@
-# replaces /etc/nixos/configuration.nix)
 {
   inputs,
   outputs,
@@ -7,17 +6,7 @@
   pkgs,
   ...
 }: {
-  # You can import other NixOS modules here
   imports = [
-    # outputs.nixosModules.example
-
-    # inputs.hardware.nixosModules.common-cpu-amd
-    # inputs.hardware.nixosModules.common-ssd
-
-    # Can also split up your configuration and import pieces of it here:
-    # ./users.nix
-
-    # Import generated (nixos-generate-config) hardware configuration
     ./hardware-configuration.nix
   ];
 
@@ -26,16 +15,6 @@
       outputs.overlays.additions
       outputs.overlays.modifications
       outputs.overlays.unstable-packages
-
-      # Can also add overlays exported from other flakes:
-      # neovim-nightly-overlay.overlays.default
-
-      # Or define it inline, for example:
-      # (final: prev: {
-      #   hi = final.hello.overrideAttrs (oldAttrs: {
-      #     patches = [ ./change-hello-to-hi.patch ];
-      #   });
-      # })
     ];
     config = {
       allowUnfree = true;
@@ -46,25 +25,24 @@
     flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
   in {
     settings = {
-      # Enable flakes and new 'nix' command
-      experimental-features = "nix-command flakes";
-      # Opinionated: disable global registry
+      experimental-features = ["nix-command" "flakes"];
       flake-registry = "";
-      # Workaround for https://github.com/NixOS/nix/issues/9574
       nix-path = config.nix.nixPath;
+      auto-optimise-store = true;
     };
-    # Opinionated: disable channels
     channel.enable = false;
-
-    # Opinionated: make flake registry and nix path match flake inputs
     registry = lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs;
     nixPath = lib.mapAttrsToList (n: _: "${n}=flake:${n}") flakeInputs;
+
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 14d";
+    };
   };
 
-  # Set your time zone.
   time.timeZone = "America/New_York";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
   i18n.extraLocaleSettings = {
@@ -79,51 +57,61 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "";
-  };
-
-  # Sway/wayland stuff
-  programs.dconf.enable = true;
-
-  # Preferred TUI based greeter
-  services.greetd = {
+  services.xserver = {
     enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
-        user = "greeter";
+    desktopManager = {
+      xterm.enable = false;
+      xfce = {
+        enable = true;
+        noDesktop = true;
+        enableXfwm = false;
       };
     };
+    windowManager.dwm.enable = true;
+    #windowManager.i3.enable = true;
   };
-  users.users.greeter = {};
+  services.displayManager.defaultSession = "xfce+dwm";
 
-  # Seems to be required for waybar fonts
+  # Leave monitor hotplug/layout handling to XFCE, not a udev autorandr hook.
+  services.autorandr.enable = false;
+
+  # Suspend on battery lid-close, but stay awake on AC or when docked.
+  services.logind.settings.Login = {
+    HandleLidSwitch = "suspend";
+    HandleLidSwitchExternalPower = "ignore";
+    HandleLidSwitchDocked = "ignore";
+    IdleAction = "ignore";
+  };
+  services.tlp.settings."USB_DENYLIST" = "32ac:0002";
+
+  # One session-managed locker, with lock readiness handed off before sleep.
+  # programs.xss-lock = {
+  #   enable = true;
+  #   extraOptions = ["--transfer-sleep-lock"];
+  #   lockerCommand = "${pkgs.i3lock}/bin/i3lock --nofork -c 2d1b3a";
+  # };
+
+  programs.dconf.enable = true;
+
   fonts.fontconfig.enable = true;
   fonts.packages = with pkgs; [
     font-awesome
   ];
 
-  # Bootloader.
-  # boot.loader.grub.enable = true;
-  # boot.loader.grub.device = "/dev/nvme0n1";
-  # boot.loader.grub.useOSProber = true;
-
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    configurationLimit = 10;
+  };
 
   boot.extraModprobeConfig = ''
     options snd_usb_audio vid=0x1235 pid=0x8212 device_setup=1
   '';
 
-  # Enable networking
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
 
-  # This is for sway
   security.polkit.enable = true;
-  security.pam.services.swaylock = {};
+  #security.pam.services.i3lock = {};
 
   programs.zsh.enable = true;
 
@@ -140,10 +128,9 @@
 
   virtualisation.docker = {
     enable = true;
-    enableOnBoot = true; # start daemon at boot via systemd
+    enableOnBoot = true;
   };
 
-  # System wide user settings
   users.users.josh = {
     isNormalUser = true;
     description = "josh";
@@ -154,21 +141,17 @@
   services.openssh = {
     enable = true;
     settings = {
-      # Opinionated: forbid root login through SSH.
-      #PermitRootLogin = "no";
-      # Opinionated: use keys only.
-      # Remove if you want to SSH using passwords
       PasswordAuthentication = true;
     };
   };
 
-  # Steam for gaming (as if)
   programs.steam = {
     enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    remotePlay.openFirewall = true;
+    dedicatedServer.openFirewall = true;
   };
 
-  # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
-  system.stateVersion = "23.05";
+  hardware.steam-hardware.enable = true;
+
+  system.stateVersion = "23.05"; # NOTE: leave at original install version; see above
 }
