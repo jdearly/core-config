@@ -5,7 +5,8 @@
     ./modules/tmux.nix
     ./modules/shell.nix
     ./modules/neovim.nix
-    ./modules/wayland.nix
+    #./modules/wayland.nix
+    ./modules/x11.nix
   ];
 
   home = {

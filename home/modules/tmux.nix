@@ -23,7 +23,8 @@
       # keybindings
       bind-key -T copy-mode-vi v send-keys -X begin-selection
       bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
-      bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
+      bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel \
+         "xclip -quiet -selection clipboard -in"
 
       set -g base-index 1
       setw -g pane-base-index 1
@@ -35,7 +36,7 @@
       set -g prefix C-Space
 
       set -g mouse on
-      set -g set-clipboard external
+      set -g set-clipboard off
     '';
   };
 }

@@ -17,7 +17,7 @@
       outputs.overlays.unstable-packages
     ];
     config = {
-      allowUnfree = true;
+      allowUnfree = false;
     };
   };
 
@@ -68,12 +68,8 @@
       };
     };
     windowManager.dwm.enable = true;
-    #windowManager.i3.enable = true;
   };
   services.displayManager.defaultSession = "xfce+dwm";
-
-  # Leave monitor hotplug/layout handling to XFCE, not a udev autorandr hook.
-  services.autorandr.enable = false;
 
   # Suspend on battery lid-close, but stay awake on AC or when docked.
   services.logind.settings.Login = {
@@ -82,14 +78,6 @@
     HandleLidSwitchDocked = "ignore";
     IdleAction = "ignore";
   };
-  services.tlp.settings."USB_DENYLIST" = "32ac:0002";
-
-  # One session-managed locker, with lock readiness handed off before sleep.
-  # programs.xss-lock = {
-  #   enable = true;
-  #   extraOptions = ["--transfer-sleep-lock"];
-  #   lockerCommand = "${pkgs.i3lock}/bin/i3lock --nofork -c 2d1b3a";
-  # };
 
   programs.dconf.enable = true;
 
@@ -101,6 +89,7 @@
   boot.loader.systemd-boot = {
     enable = true;
     configurationLimit = 10;
+    graceful = true;
   };
 
   boot.extraModprobeConfig = ''
@@ -111,15 +100,15 @@
   networking.networkmanager.enable = true;
 
   security.polkit.enable = true;
-  #security.pam.services.i3lock = {};
 
   programs.zsh.enable = true;
+  programs.man.enable = true;
 
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
     extraSpecialArgs = {inherit inputs outputs;};
-    users.josh = import ../home-manager/home.nix;
+    users.josh = import ../home/home.nix;
   };
 
   hardware.graphics = {
@@ -144,14 +133,6 @@
       PasswordAuthentication = true;
     };
   };
-
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true;
-    dedicatedServer.openFirewall = true;
-  };
-
-  hardware.steam-hardware.enable = true;
 
   system.stateVersion = "23.05"; # NOTE: leave at original install version; see above
 }

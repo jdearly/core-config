@@ -42,10 +42,10 @@ in {
       name = gtkTheme;
       package = pkgs.adw-gtk3;
     };
-    gtk4.theme = {
-      name = gtkTheme;
-      package = pkgs.adw-gtk3;
-    };
+    # gtk4.extraConfig = {
+    #   name = gtkTheme;
+    #   package = pkgs.adw-gtk3;
+    # };
     cursorTheme = {
       name = cursorTheme;
       size = cursorSize;

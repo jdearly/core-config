@@ -12,12 +12,12 @@
         (oldAttrs.patches or [])
         ++ [
           (prev.fetchpatch {
-            url = "https://dwm.suckless.org/patches/systray/dwm-systray-6.7.diff";
-            hash = "sha256-XS+D1fg34HzoU2qgS/877WuwM8ydYX4X6SG3Du9G3n4=";
+            url = "https://dwm.suckless.org/patches/status2d/dwm-status2d-systray-6.4.diff";
+            hash = "sha256-SfKtvPQ4N8DvmL2a9hj/Cr1cRGDVHj6RllnjBVZfBm8=";
           })
         ];
-      configFile = prev.writeText "config.h" (builtins.readFile ../config/dwm/config.h);
-      postPatch = oldAttrs.postPatch or "" + "\necho 'Using own config file...'\n cp ${configFile} config.def.h";
+      # configFile = prev.writeText "config.h" (builtins.readFile ../config/dwm/config.h);
+      # postPatch = oldAttrs.postPatch or "" + "\necho 'Using own config file...'\n cp ${configFile} config.def.h";
     });
     st = prev.st.overrideAttrs (oldAttrs: rec {
       patches =
@@ -35,6 +35,22 @@
       configFile = prev.writeText "config.h" (builtins.readFile ../config/st/config.h);
       postPatch = "${oldAttrs.postPatch}\ncp ${configFile} config.def.h\n";
     });
+    # specifically using unstable temporarily, with 26.06 the surf-2.1 package is broken
+    surf = (import inputs.nixpkgs-unstable {
+         inherit (prev) system;
+         config = prev.config; 
+    }).surf;
+    # Figure this out.. 
+    # surf = prev.surf.overrideAttrs (oldAttrs: rec {
+    #   patches =
+    #     (oldAttrs.patches or [])
+    #     ++ [
+    #       (prev.fetchpatch {
+    #         url = "https://surf.suckless.org/patches/homepage/surf-2.0-homepage.diff";
+    #         hash = "";
+    #       })
+    #     ];
+    # });
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will
